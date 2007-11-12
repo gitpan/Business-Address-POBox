@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -136,16 +136,19 @@ Get or set the array values. If called without an arguments, it returns the
 array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
+
 =item blacklist_clear
 
     $obj->blacklist_clear;
 
 Deletes all elements from the array.
+
 =item blacklist_count
 
     my $count = $obj->blacklist_count;
 
 Returns the number of elements in the array.
+
 =item blacklist_index
 
     my $element   = $obj->blacklist_index(3);
@@ -156,16 +159,19 @@ Takes a list of indices and returns the elements indicated by those indices.
 If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
+
 =item blacklist_pop
 
     my $value = $obj->blacklist_pop;
 
 Pops the last element off the array, returning it.
+
 =item blacklist_push
 
     $obj->blacklist_push(@values);
 
 Pushes elements onto the end of the array.
+
 =item blacklist_set
 
     $obj->blacklist_set(1 => $x, 5 => $y);
@@ -173,11 +179,13 @@ Pushes elements onto the end of the array.
 Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
+
 =item blacklist_shift
 
     my $value = $obj->blacklist_shift;
 
 Shifts the first element off the array, returning it.
+
 =item blacklist_splice
 
     $obj->blacklist_splice(2, 1, $x, $y);
@@ -197,31 +205,37 @@ offset onward except for -length elements at the end of the array. If both the
 offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
+
 =item blacklist_unshift
 
     $obj->blacklist_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
+
 =item clear_blacklist
 
     $obj->clear_blacklist;
 
 Deletes all elements from the array.
+
 =item clear_whitelist
 
     $obj->clear_whitelist;
 
 Deletes all elements from the array.
+
 =item count_blacklist
 
     my $count = $obj->count_blacklist;
 
 Returns the number of elements in the array.
+
 =item count_whitelist
 
     my $count = $obj->count_whitelist;
 
 Returns the number of elements in the array.
+
 =item index_blacklist
 
     my $element   = $obj->index_blacklist(3);
@@ -232,6 +246,7 @@ Takes a list of indices and returns the elements indicated by those indices.
 If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
+
 =item index_whitelist
 
     my $element   = $obj->index_whitelist(3);
@@ -242,26 +257,31 @@ Takes a list of indices and returns the elements indicated by those indices.
 If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
+
 =item pop_blacklist
 
     my $value = $obj->pop_blacklist;
 
 Pops the last element off the array, returning it.
+
 =item pop_whitelist
 
     my $value = $obj->pop_whitelist;
 
 Pops the last element off the array, returning it.
+
 =item push_blacklist
 
     $obj->push_blacklist(@values);
 
 Pushes elements onto the end of the array.
+
 =item push_whitelist
 
     $obj->push_whitelist(@values);
 
 Pushes elements onto the end of the array.
+
 =item set_blacklist
 
     $obj->set_blacklist(1 => $x, 5 => $y);
@@ -269,6 +289,7 @@ Pushes elements onto the end of the array.
 Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
+
 =item set_whitelist
 
     $obj->set_whitelist(1 => $x, 5 => $y);
@@ -276,16 +297,19 @@ that have been set.
 Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
+
 =item shift_blacklist
 
     my $value = $obj->shift_blacklist;
 
 Shifts the first element off the array, returning it.
+
 =item shift_whitelist
 
     my $value = $obj->shift_whitelist;
 
 Shifts the first element off the array, returning it.
+
 =item splice_blacklist
 
     $obj->splice_blacklist(2, 1, $x, $y);
@@ -305,6 +329,7 @@ offset onward except for -length elements at the end of the array. If both the
 offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
+
 =item splice_whitelist
 
     $obj->splice_whitelist(2, 1, $x, $y);
@@ -324,16 +349,19 @@ offset onward except for -length elements at the end of the array. If both the
 offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
+
 =item unshift_blacklist
 
     $obj->unshift_blacklist(@values);
 
 Unshifts elements onto the beginning of the array.
+
 =item unshift_whitelist
 
     $obj->unshift_whitelist(@values);
 
 Unshifts elements onto the beginning of the array.
+
 =item whitelist
 
     my @values    = $obj->whitelist;
@@ -345,16 +373,19 @@ Get or set the array values. If called without an arguments, it returns the
 array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
+
 =item whitelist_clear
 
     $obj->whitelist_clear;
 
 Deletes all elements from the array.
+
 =item whitelist_count
 
     my $count = $obj->whitelist_count;
 
 Returns the number of elements in the array.
+
 =item whitelist_index
 
     my $element   = $obj->whitelist_index(3);
@@ -365,16 +396,19 @@ Takes a list of indices and returns the elements indicated by those indices.
 If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
+
 =item whitelist_pop
 
     my $value = $obj->whitelist_pop;
 
 Pops the last element off the array, returning it.
+
 =item whitelist_push
 
     $obj->whitelist_push(@values);
 
 Pushes elements onto the end of the array.
+
 =item whitelist_set
 
     $obj->whitelist_set(1 => $x, 5 => $y);
@@ -382,11 +416,13 @@ Pushes elements onto the end of the array.
 Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
+
 =item whitelist_shift
 
     my $value = $obj->whitelist_shift;
 
 Shifts the first element off the array, returning it.
+
 =item whitelist_splice
 
     $obj->whitelist_splice(2, 1, $x, $y);
@@ -406,6 +442,7 @@ offset onward except for -length elements at the end of the array. If both the
 offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
+
 =item whitelist_unshift
 
     $obj->whitelist_unshift(@values);
