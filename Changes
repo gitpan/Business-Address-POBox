@@ -1,0 +1,10 @@
+---
+global:
+  name: Business-Address-POBox
+releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - original version
+    date: 2007-11-12T12:28:06Z
+    tags: []
+    version: 0.01
