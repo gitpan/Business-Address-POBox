@@ -13,6 +13,7 @@ inc/Module/Install/Template.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 inc/Test/Compile.pm
+inc/Test/Exception.pm
 inc/Test/More.pm
 inc/UNIVERSAL/require.pm
 lib/Business/Address/POBox.pm

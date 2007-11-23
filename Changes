@@ -4,6 +4,13 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.04
+      - 'Makefile.PL: build_requires Test::Exception'
+    date: 2007-11-23T13:34:56Z
+    tags: []
+    version: 0.04
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - Added missing requirement for Class::Accessor::Constructor
       - '.shipit: added Twitter step'
       - 'Makefile.PL: added auto_install() and process_templates()'

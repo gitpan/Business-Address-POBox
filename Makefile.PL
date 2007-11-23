@@ -9,6 +9,7 @@ requires 'Class::Accessor::Complex';
 requires 'Class::Accessor::Constructor';
 requires 'String::BlackWhiteList';
 
+build_requires 'Test::Exception';
 build_requires 'Test::More' => '0.70';
 
 process_templates(
