@@ -4,6 +4,18 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - Added missing requirement for Class::Accessor::Constructor
+      - '.shipit: added Twitter step'
+      - 'Makefile.PL: added auto_install() and process_templates()'
+      - updated MANIFEST
+      - updated MANIFEST
+      - updated t/perlcriticrc
+    date: 2007-11-21T18:20:47Z
+    tags:
+      - BUGFIX
+    version: 0.03
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - Fixed newlines in pod
     date: 2007-11-12T12:34:03Z
     tags:

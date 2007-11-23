@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -119,11 +119,76 @@ german P.O. box addresses, but you can modify these lists with the methods
 provided.
 
 Business::Address::POBox inherits from L<Class::Accessor::Complex>,
-L<Class::Accessor::Constructor>, L<Class::Accessor::Constructor::Base>.
+L<Class::Accessor::Constructor>, and L<Class::Accessor::Constructor::Base>.
+
+The superclass L<Class::Accessor::Complex> defines these methods and
+functions:
+
+    carp(), cluck(), croak(), flatten(), mk_abstract_accessors(),
+    mk_array_accessors(), mk_boolean_accessors(),
+    mk_class_array_accessors(), mk_class_hash_accessors(),
+    mk_class_scalar_accessors(), mk_concat_accessors(),
+    mk_forward_accessors(), mk_hash_accessors(), mk_integer_accessors(),
+    mk_new(), mk_object_accessors(), mk_scalar_accessors(),
+    mk_set_accessors(), mk_singleton()
+
+The superclass L<Class::Accessor> defines these methods and functions:
+
+    _carp(), _croak(), _mk_accessors(), accessor_name_for(),
+    best_practice_accessor_name_for(), best_practice_mutator_name_for(),
+    follow_best_practice(), get(), make_accessor(), make_ro_accessor(),
+    make_wo_accessor(), mk_accessors(), mk_ro_accessors(),
+    mk_wo_accessors(), mutator_name_for(), set()
+
+The superclass L<Class::Accessor::Installer> defines these methods and
+functions:
+
+    install_accessor(), subname()
+
+The superclass L<Class::Accessor::Constructor> defines these methods and
+functions:
+
+    NO_DIRTY(), WITH_DIRTY(), _make_constructor(), mk_constructor(),
+    mk_constructor_with_dirty(), mk_singleton_constructor()
+
+The superclass L<Data::Inherited> defines these methods and functions:
+
+    every_hash(), every_list(), flush_every_cache_by_key()
+
+The superclass L<Class::Accessor::Constructor::Base> defines these methods
+and functions:
+
+    HYGIENIC(), STORE(), clear_dirty(), clear_hygienic(),
+    clear_unhygienic(), contains_hygienic(), contains_unhygienic(),
+    delete_hygienic(), delete_unhygienic(), dirty(), dirty_clear(),
+    dirty_set(), elements_hygienic(), elements_unhygienic(), hygienic(),
+    hygienic_clear(), hygienic_contains(), hygienic_delete(),
+    hygienic_elements(), hygienic_insert(), hygienic_is_empty(),
+    hygienic_size(), insert_hygienic(), insert_unhygienic(),
+    is_empty_hygienic(), is_empty_unhygienic(), set_dirty(),
+    size_hygienic(), size_unhygienic(), unhygienic(), unhygienic_clear(),
+    unhygienic_contains(), unhygienic_delete(), unhygienic_elements(),
+    unhygienic_insert(), unhygienic_is_empty(), unhygienic_size()
+
+The superclass L<Tie::StdHash> defines these methods and functions:
+
+    CLEAR(), DELETE(), EXISTS(), FETCH(), FIRSTKEY(), NEXTKEY(), SCALAR(),
+    TIEHASH()
 
 =head1 METHODS
 
 =over 4
+
+=item new
+
+    my $obj = Business::Address::POBox->new;
+    my $obj = Business::Address::POBox->new(%args);
+
+Creates and returns a new object. The constructor will accept as arguments a
+list of pairs, from component name to initial value. For each pair, the named
+component is initialized by calling the method of the same name with the given
+value. If called with a single hash reference, it is dereferenced and its
+key/value pairs are set as described before.
 
 =item blacklist
 
@@ -218,6 +283,12 @@ Unshifts elements onto the beginning of the array.
 
 Deletes all elements from the array.
 
+=item clear_matcher
+
+    $obj->clear_matcher;
+
+Deletes the object.
+
 =item clear_whitelist
 
     $obj->clear_whitelist;
@@ -257,6 +328,28 @@ Takes a list of indices and returns the elements indicated by those indices.
 If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
+
+=item matcher
+
+    my $object = $obj->matcher;
+    $obj->matcher($object);
+    $obj->matcher(@args);
+
+If called with an argument object of type String::BlackWhiteList it sets the object; further
+arguments are discarded. If called with arguments but the first argument is
+not an object of type String::BlackWhiteList, a new object of type String::BlackWhiteList is constructed and the
+arguments are passed to the constructor.
+
+If called without arguments, it returns the String::BlackWhiteList object stored in this slot;
+if there is no such object, a new String::BlackWhiteList object is constructed - no arguments
+are passed to the constructor in this case - and stored in the matcher slot
+before returning it.
+
+=item matcher_clear
+
+    $obj->matcher_clear;
+
+Deletes the object.
 
 =item pop_blacklist
 
@@ -467,6 +560,10 @@ blacklist, false if the string is caught by the blacklist.
 
 If you talk about this module in blogs, on del.icio.us or anywhere else,
 please use the C<businessaddresspobox> tag.
+
+=head1 VERSION 
+                   
+This document describes version 0.03 of L<Business::Address::POBox>.
 
 =head1 BUGS AND LIMITATIONS
 
