@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -563,7 +563,7 @@ please use the C<businessaddresspobox> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.04 of L<Business::Address::POBox>.
+This document describes version 0.05 of L<Business::Address::POBox>.
 
 =head1 BUGS AND LIMITATIONS
 

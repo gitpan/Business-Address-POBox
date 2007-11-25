@@ -4,6 +4,13 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.05
+      - "Makefile.PL: Test::Exception now required, not build_required; some CPAN testers didn't pick it up"
+    date: 2007-11-25T10:10:51Z
+    tags: []
+    version: 0.05
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.04
       - 'Makefile.PL: build_requires Test::Exception'
     date: 2007-11-23T13:34:56Z
