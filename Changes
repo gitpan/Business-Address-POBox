@@ -4,6 +4,14 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.06
+      - 'patterns are now interpreted as literal text, not as regexes'
+      - moved generated documentation of interited methods to after documentation of this class' methods so the manpage is more readable
+    date: 2008-01-31T15:48:43Z
+    tags: []
+    version: 0.06
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.05
       - "Makefile.PL: Test::Exception now required, not build_required; some CPAN testers didn't pick it up"
     date: 2007-11-25T10:10:51Z

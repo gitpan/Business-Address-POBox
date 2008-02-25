@@ -35,6 +35,8 @@ my @is_not_pobox = (
     'Postfachplatz 11',
     'PFalznerweg 91',
     'aPOSTelweg 12',
+    'Prof. Dr. Stephan Koren-Strasse 10',
+    'Pool Lane 123',
 );
 
     
