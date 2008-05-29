@@ -37,6 +37,11 @@ my @is_not_pobox = (
     'aPOSTelweg 12',
     'Prof. Dr. Stephan Koren-Strasse 10',
     'Pool Lane 123',
+    'Pool Street 123',
+    'An der alten Post 4',
+    'An der Alten Post 4711',
+    'Im Wirtshaus an der Post 7',
+    'Pf-Karl-Platz 4'
 );
 
     
@@ -58,12 +63,17 @@ my @is_pobox = (
     'P. O. BOX',
     'POBOX',
     'PF 123',
+    'Pf-123',
     'P.F. 37, Post Drive 9',
     'P.O. BOX 37, Post Drive 9',
     'Post Street, P.O.B.',
     'Postfach 41, 1023 Wien',
     'Post Gasse, Postlagernd',
-    'POSTBUS'
+    'POSTBUS',
+    'Postfach 41, 1023 Wien',
+    'Post Box 1234',
+    'Prof. Mabuse P.O. Box',
+    'Pool Box 123',
 );
 
 

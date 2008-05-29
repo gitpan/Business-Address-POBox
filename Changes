@@ -4,10 +4,22 @@ global:
 releases:
   - author: 'Marcel Gruenauer <marcel@cpan.org>'
     changes:
+      - set the version to 0.07
+      - '.shipit: fixed svk.tagpattern'
+      - '.shipit: fixed typo in svk.tagpattern'
+      - added is_pobox_relaxed()
+    date: 2008-05-29T19:49:25Z
+    tags: []
+    version: 0.07
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
       - set the version to 0.06
       - 'patterns are now interpreted as literal text, not as regexes'
       - moved generated documentation of interited methods to after documentation of this class' methods so the manpage is more readable
-    date: 2008-01-31T15:48:43Z
+      - '.shipit: fixed svk.tagpattern'
+      - 'Business::Address::POBox: now uses regexes instead of literal strings'
+      - 't/01_is_pobox.t: added more tests'
+    date: 2008-05-29T12:00:55Z
     tags: []
     version: 0.06
   - author: 'Marcel Gruenauer <marcel@cpan.org>'

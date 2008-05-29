@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -19,50 +19,13 @@ __PACKAGE__
 
 use constant DEFAULTS => (
     blacklist => [
-        'BOX',
-        'POB',
-        'POSTBOX',
-        'POST',
-        'POSTSCHACHTEL',
-        'PO',
-        'P O',
-        'P O BOX',
-        'P.O.',
-        'P.O.B.',
-        'P.O.BOX',
-        'P.O. BOX',
-        'P. O.',
-        'P. O.BOX',
-        'P. O. BOX',
-        'POBOX',
-        'PF',
-        'P.F.',
-        'POSTFACH',
-        'POSTLAGERND',
-        'POSTBUS'
+        '\b(BOX|POB|POST(BOX|SCHACHTEL|FACH|LAGERND|BUS)?|POBOX)\b',
+        '\b(P\.?\s*O\.?(\s*B(\.|OX))?)\b',
+        'P\.?F\.?(-|\s+)\d',
     ],
     whitelist => [
-        'Post Road',
-        'Post Rd',
-        'Post Street',
-        'Post St',
-        'Post Avenue',
-        'Post Av',
-        'Post Alley',
-        'Post Drive',
-        'Post Grove',
-        'Post Walk',
-        'Post Parkway',
-        'Post Row',
-        'Post Lane',
-        'Post Bridge',
-        'Post Boulevard',
-        'Post Square',
-        'Post Garden',
-        'Post Strasse',
-        'Post Allee',
-        'Post Gasse',
-        'Post Platz',
+        'Pf(-|\s+)\D',
+        '\b(An\s+der\s+(alten\s+)?Post|Post(-|\s+)(Road|Rd|Street|St|Avenue|Av|Alley|Drive|Grove|Walk|Parkway|Row|Lane|Bridge|Boulevard|Square|Garden|Strasse|Gasse|Allee|Platz))\b',
     ],
 );
 
@@ -76,7 +39,6 @@ sub init {
 sub update {
     my $self = shift;
     for ($self->matcher) {
-        $_->set_is_literal_text;
         $_->blacklist($self->blacklist);
         $_->whitelist($self->whitelist);
         $_->update;
@@ -87,6 +49,12 @@ sub update {
 sub is_pobox {
     my ($self, $text) = @_;
     !$self->matcher->valid($text);
+}
+
+
+sub is_pobox_relaxed {
+    my ($self, $text) = @_;
+    !$self->matcher->valid_relaxed($text);
 }
 
 
@@ -563,7 +531,7 @@ please use the C<businessaddresspobox> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.06 of L<Business::Address::POBox>.
+This document describes version 0.07 of L<Business::Address::POBox>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -583,13 +551,13 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
 site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
