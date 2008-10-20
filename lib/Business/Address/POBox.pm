@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -524,21 +524,11 @@ The superclass L<Tie::StdHash> defines these methods and functions:
     CLEAR(), DELETE(), EXISTS(), FETCH(), FIRSTKEY(), NEXTKEY(), SCALAR(),
     TIEHASH()
 
-=head1 TAGS
-
-If you talk about this module in blogs, on del.icio.us or anywhere else,
-please use the C<businessaddresspobox> tag.
-
-=head1 VERSION 
-                   
-This document describes version 0.07 of L<Business::Address::POBox>.
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-business-address-pobox@rt.cpan.org>>, or through the web interface at
+Please report any bugs or feature requests through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 INSTALLATION
