@@ -1,5 +1,8 @@
 Revision history for Perl extension Business-Address-POBox
 
+0.09  Fri Dec 12 11:51:11 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - 'Am Steinkopf 17' was falsely recognized as a POBox; fixed
+
 0.08  Thu Jul 25 15:27:43 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - Changed dist style and Changes back to standard. People didn't like it -
        the nail that sticks out gets hammered down.

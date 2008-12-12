@@ -10,11 +10,8 @@ requires 'Class::Accessor::Constructor';
 requires 'String::BlackWhiteList' => '0.06';
 requires 'Test::Exception';
 
-recommends 'Test::Pod';
-recommends 'Test::Pod::Coverage';
-
 test_requires 'Test::More' => '0.70';
-test_requires 'Test::Compile';
+extra_tests;
 
 auto_install;
 auto_include;

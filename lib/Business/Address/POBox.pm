@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -21,7 +21,7 @@ use constant DEFAULTS => (
     blacklist => [
         '\b(BOX|POB|POST(BOX|SCHACHTEL|FACH|LAGERND|BUS)?|POBOX)\b',
         '\b(P\.?\s*O\.?(\s*B(\.|OX))?)\b',
-        'P\.?F\.?(-|\s+)\d',
+        '(^|\b)P\.?F\.?(-|\s+)\d',
     ],
     whitelist => [
         'Pf(-|\s+)\D',
@@ -80,11 +80,11 @@ Business::Address::POBox - Check whether an address looks like a P.O.Box
 =head1 DESCRIPTION
 
 This class tries to determine whether or not an string refers to a P.O. box.
-This is sometims relevant if your business process, for legal reasons, needs a
-real address and not a P.O. box.
+This is sometimes relevant if your business process, for legal reasons, needs
+a real address and not a P.O. box.
 
-It has predefined blacklists and whitelists that should catch most english and
-german P.O. box addresses, but you can modify these lists with the methods
+It has predefined blacklists and whitelists that should catch most English and
+German P.O. box addresses, but you can modify these lists with the methods
 provided. Note that the entries are literal strings, not regular expressions.
 
 =head1 METHODS
@@ -101,6 +101,11 @@ list of pairs, from component name to initial value. For each pair, the named
 component is initialized by calling the method of the same name with the given
 value. If called with a single hash reference, it is dereferenced and its
 key/value pairs are set as described before.
+
+=item init
+
+Just calls C<update()> in case the blacklist and/or whitelist was set during
+the C<new()> call.
 
 =item blacklist
 
@@ -465,6 +470,13 @@ This is the central method of this class. It takes a string argument and
 checks it against the whitelist and the blacklist. Returns a boolean value -
 true if the string passes the whitelist or is at least not caught by the
 blacklist, false if the string is caught by the blacklist.
+
+=item is_pobox_relaxed
+
+Like C<is_pobox()>, but once a string passes the whitelist, it is not checked
+against the blacklist anymore. That is, if a string matches the whitelist, it
+is valid. If not, it is checked against the blacklist - if it matches, it is
+invalid. If it matches neither whitelist nor blacklist, it is valid.
 
 =back
 

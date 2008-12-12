@@ -41,7 +41,8 @@ my @is_not_pobox = (
     'An der alten Post 4',
     'An der Alten Post 4711',
     'Im Wirtshaus an der Post 7',
-    'Pf-Karl-Platz 4'
+    'Pf-Karl-Platz 4',
+    'Am Steinkopf 17',
 );
 
     
