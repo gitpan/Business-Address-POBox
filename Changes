@@ -1,5 +1,8 @@
 Revision history for Perl extension Business-Address-POBox
 
+0.10 Mon May  4 16:29:37 CEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
+     - 'Alte Post' was falsely recognized as a POBox; fixed
+
 0.09  Fri Dec 12 11:51:11 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - 'Am Steinkopf 17' was falsely recognized as a POBox; fixed
 

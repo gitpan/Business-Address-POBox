@@ -3,9 +3,12 @@ abstract: 'Check whether an address looks like a P.O.Box'
 author:
   - 'Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>'
 build_requires:
+  ExtUtils::MakeMaker: 6.42
   Test::More: 0.70
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.77'
+generated_by: 'Module::Install version 0.86'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,6 +18,7 @@ no_index:
   directory:
     - inc
     - t
+    - xt
 requires:
   Class::Accessor::Complex: 0
   Class::Accessor::Constructor: 0
@@ -23,4 +27,4 @@ requires:
   perl: 5.6.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.09
+version: 0.10

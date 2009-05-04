@@ -5,7 +5,7 @@ use warnings;
 use String::BlackWhiteList;
 
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
@@ -25,7 +25,7 @@ use constant DEFAULTS => (
     ],
     whitelist => [
         'Pf(-|\s+)\D',
-        '\b(An\s+der\s+(alten\s+)?Post|Post(-|\s+)(Road|Rd|Street|St|Avenue|Av|Alley|Drive|Grove|Walk|Parkway|Row|Lane|Bridge|Boulevard|Square|Garden|Strasse|Gasse|Allee|Platz))\b',
+        '\b((Alte|An\s+der(\s+alten)?)\s+Post|Post(-|\s+)(Road|Rd|Street|St|Avenue|Av|Alley|Drive|Grove|Walk|Parkway|Row|Lane|Bridge|Boulevard|Square|Garden|Strasse|Gasse|Allee|Platz))\b',
     ],
 );
 
@@ -91,7 +91,7 @@ provided. Note that the entries are literal strings, not regular expressions.
 
 =over 4
 
-=item new
+=item C<new>
 
     my $obj = Business::Address::POBox->new;
     my $obj = Business::Address::POBox->new(%args);
@@ -102,12 +102,12 @@ component is initialized by calling the method of the same name with the given
 value. If called with a single hash reference, it is dereferenced and its
 key/value pairs are set as described before.
 
-=item init
+=item C<init>
 
 Just calls C<update()> in case the blacklist and/or whitelist was set during
 the C<new()> call.
 
-=item blacklist
+=item C<blacklist>
 
     my @values    = $obj->blacklist;
     my $array_ref = $obj->blacklist;
@@ -119,19 +119,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item blacklist_clear
+=item C<blacklist_clear>
 
     $obj->blacklist_clear;
 
 Deletes all elements from the array.
 
-=item blacklist_count
+=item C<blacklist_count>
 
     my $count = $obj->blacklist_count;
 
 Returns the number of elements in the array.
 
-=item blacklist_index
+=item C<blacklist_index>
 
     my $element   = $obj->blacklist_index(3);
     my @elements  = $obj->blacklist_index(@indices);
@@ -142,19 +142,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item blacklist_pop
+=item C<blacklist_pop>
 
     my $value = $obj->blacklist_pop;
 
 Pops the last element off the array, returning it.
 
-=item blacklist_push
+=item C<blacklist_push>
 
     $obj->blacklist_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item blacklist_set
+=item C<blacklist_set>
 
     $obj->blacklist_set(1 => $x, 5 => $y);
 
@@ -162,13 +162,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item blacklist_shift
+=item C<blacklist_shift>
 
     my $value = $obj->blacklist_shift;
 
 Shifts the first element off the array, returning it.
 
-=item blacklist_splice
+=item C<blacklist_splice>
 
     $obj->blacklist_splice(2, 1, $x, $y);
     $obj->blacklist_splice(-1);
@@ -188,43 +188,43 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item blacklist_unshift
+=item C<blacklist_unshift>
 
     $obj->blacklist_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item clear_blacklist
+=item C<clear_blacklist>
 
     $obj->clear_blacklist;
 
 Deletes all elements from the array.
 
-=item clear_matcher
+=item C<clear_matcher>
 
     $obj->clear_matcher;
 
 Deletes the object.
 
-=item clear_whitelist
+=item C<clear_whitelist>
 
     $obj->clear_whitelist;
 
 Deletes all elements from the array.
 
-=item count_blacklist
+=item C<count_blacklist>
 
     my $count = $obj->count_blacklist;
 
 Returns the number of elements in the array.
 
-=item count_whitelist
+=item C<count_whitelist>
 
     my $count = $obj->count_whitelist;
 
 Returns the number of elements in the array.
 
-=item index_blacklist
+=item C<index_blacklist>
 
     my $element   = $obj->index_blacklist(3);
     my @elements  = $obj->index_blacklist(@indices);
@@ -235,7 +235,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item index_whitelist
+=item C<index_whitelist>
 
     my $element   = $obj->index_whitelist(3);
     my @elements  = $obj->index_whitelist(@indices);
@@ -246,7 +246,7 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item matcher
+=item C<matcher>
 
     my $object = $obj->matcher;
     $obj->matcher($object);
@@ -262,37 +262,37 @@ if there is no such object, a new String::BlackWhiteList object is constructed -
 are passed to the constructor in this case - and stored in the matcher slot
 before returning it.
 
-=item matcher_clear
+=item C<matcher_clear>
 
     $obj->matcher_clear;
 
 Deletes the object.
 
-=item pop_blacklist
+=item C<pop_blacklist>
 
     my $value = $obj->pop_blacklist;
 
 Pops the last element off the array, returning it.
 
-=item pop_whitelist
+=item C<pop_whitelist>
 
     my $value = $obj->pop_whitelist;
 
 Pops the last element off the array, returning it.
 
-=item push_blacklist
+=item C<push_blacklist>
 
     $obj->push_blacklist(@values);
 
 Pushes elements onto the end of the array.
 
-=item push_whitelist
+=item C<push_whitelist>
 
     $obj->push_whitelist(@values);
 
 Pushes elements onto the end of the array.
 
-=item set_blacklist
+=item C<set_blacklist>
 
     $obj->set_blacklist(1 => $x, 5 => $y);
 
@@ -300,7 +300,7 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item set_whitelist
+=item C<set_whitelist>
 
     $obj->set_whitelist(1 => $x, 5 => $y);
 
@@ -308,19 +308,19 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item shift_blacklist
+=item C<shift_blacklist>
 
     my $value = $obj->shift_blacklist;
 
 Shifts the first element off the array, returning it.
 
-=item shift_whitelist
+=item C<shift_whitelist>
 
     my $value = $obj->shift_whitelist;
 
 Shifts the first element off the array, returning it.
 
-=item splice_blacklist
+=item C<splice_blacklist>
 
     $obj->splice_blacklist(2, 1, $x, $y);
     $obj->splice_blacklist(-1);
@@ -340,7 +340,7 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item splice_whitelist
+=item C<splice_whitelist>
 
     $obj->splice_whitelist(2, 1, $x, $y);
     $obj->splice_whitelist(-1);
@@ -360,19 +360,19 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item unshift_blacklist
+=item C<unshift_blacklist>
 
     $obj->unshift_blacklist(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item unshift_whitelist
+=item C<unshift_whitelist>
 
     $obj->unshift_whitelist(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item whitelist
+=item C<whitelist>
 
     my @values    = $obj->whitelist;
     my $array_ref = $obj->whitelist;
@@ -384,19 +384,19 @@ array in list context, or a reference to the array in scalar context. If
 called with arguments, it expands array references found therein and sets the
 values.
 
-=item whitelist_clear
+=item C<whitelist_clear>
 
     $obj->whitelist_clear;
 
 Deletes all elements from the array.
 
-=item whitelist_count
+=item C<whitelist_count>
 
     my $count = $obj->whitelist_count;
 
 Returns the number of elements in the array.
 
-=item whitelist_index
+=item C<whitelist_index>
 
     my $element   = $obj->whitelist_index(3);
     my @elements  = $obj->whitelist_index(@indices);
@@ -407,19 +407,19 @@ If only one index is given, the corresponding array element is returned. If
 several indices are given, the result is returned as an array in list context
 or as an array reference in scalar context.
 
-=item whitelist_pop
+=item C<whitelist_pop>
 
     my $value = $obj->whitelist_pop;
 
 Pops the last element off the array, returning it.
 
-=item whitelist_push
+=item C<whitelist_push>
 
     $obj->whitelist_push(@values);
 
 Pushes elements onto the end of the array.
 
-=item whitelist_set
+=item C<whitelist_set>
 
     $obj->whitelist_set(1 => $x, 5 => $y);
 
@@ -427,13 +427,13 @@ Takes a list of index/value pairs and for each pair it sets the array element
 at the indicated index to the indicated value. Returns the number of elements
 that have been set.
 
-=item whitelist_shift
+=item C<whitelist_shift>
 
     my $value = $obj->whitelist_shift;
 
 Shifts the first element off the array, returning it.
 
-=item whitelist_splice
+=item C<whitelist_splice>
 
     $obj->whitelist_splice(2, 1, $x, $y);
     $obj->whitelist_splice(-1);
@@ -453,25 +453,25 @@ offset and the length are omitted, removes everything. If the offset is past
 the end of the array, it issues a warning, and splices at the end of the
 array.
 
-=item whitelist_unshift
+=item C<whitelist_unshift>
 
     $obj->whitelist_unshift(@values);
 
 Unshifts elements onto the beginning of the array.
 
-=item update
+=item C<update>
 
 Call this method when you've changed the C<whitelist()> or the C<blacklist()>
 so the matcher knows about the changes.
 
-=item is_pobox
+=item C<is_pobox>
 
 This is the central method of this class. It takes a string argument and
 checks it against the whitelist and the blacklist. Returns a boolean value -
 true if the string passes the whitelist or is at least not caught by the
 blacklist, false if the string is caught by the blacklist.
 
-=item is_pobox_relaxed
+=item C<is_pobox_relaxed>
 
 Like C<is_pobox()>, but once a string passes the whitelist, it is not checked
 against the blacklist anymore. That is, if a string matches the whitelist, it
