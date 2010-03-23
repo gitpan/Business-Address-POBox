@@ -1,12 +1,9 @@
 #!/usr/bin/env perl
-
 use warnings;
 use strict;
 use Business::Address::POBox;
 use Test::More;
 use Test::Exception;
-
-
 my @is_not_pobox = (
     'Post Road 123',
     'Post Rd 123',
@@ -45,8 +42,6 @@ my @is_not_pobox = (
     'Am Steinkopf 17',
     'Alte Post',
 );
-
-
 my @is_pobox = (
     'Box 123',
     'Pob',
@@ -77,17 +72,13 @@ my @is_pobox = (
     'Prof. Mabuse P.O. Box',
     'Pool Box 123',
 );
-
-
 plan tests => @is_not_pobox + @is_pobox;
 
 for my $value (@is_not_pobox) {
     ok(!Business::Address::POBox->new->is_pobox($value),
         "value [$value] is not a pobox");
 }
-
 for my $value (@is_pobox) {
     ok(Business::Address::POBox->new->is_pobox($value),
         "value [$value] is a pobox");
 }
-

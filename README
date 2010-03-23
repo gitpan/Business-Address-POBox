@@ -1,27 +1,88 @@
-This is the Perl distribution Business-Address-POBox.
+NAME
+    Business::Address::POBox - Check whether an address looks like a P.O.Box
+
+VERSION
+    version 1.100820
+
+SYNOPSIS
+        use Business::Address::POBox;
+
+        my $address = 'PF 34, 1010 Wien';
+        if (Business::Address::POBox->new->is_pobox($address)) {
+            # do something with the address
+        }
+
+DESCRIPTION
+    This class tries to determine whether or not an string refers to a P.O.
+    box. This is sometimes relevant if your business process, for legal
+    reasons, needs a real address and not a P.O. box.
+
+    It has predefined blacklists and whitelists that should catch most
+    English and German P.O. box addresses, but you can modify these lists
+    with the methods provided. Note that the entries are literal strings,
+    not regular expressions.
+
+METHODS
+  new
+        my $obj = Business::Address::POBox->new;
+        my $obj = Business::Address::POBox->new(%args);
+
+    Creates and returns a new object. The constructor will accept as
+    arguments a list of pairs, from component name to initial value. For
+    each pair, the named component is initialized by calling the method of
+    the same name with the given value. If called with a single hash
+    reference, it is dereferenced and its key/value pairs are set as
+    described before.
+
+  init
+    Just calls "update()" in case the blacklist and/or whitelist was set
+    during the "new()" call.
+
+  update
+    Call this method when you've changed the "whitelist()" or the
+    "blacklist()" so the matcher knows about the changes.
+
+  is_pobox
+    This is the central method of this class. It takes a string argument and
+    checks it against the whitelist and the blacklist. Returns a boolean
+    value - true if the string passes the whitelist or is at least not
+    caught by the blacklist, false if the string is caught by the blacklist.
+
+  is_pobox_relaxed
+    Like "is_pobox()", but once a string passes the whitelist, it is not
+    checked against the blacklist anymore. That is, if a string matches the
+    whitelist, it is valid. If not, it is checked against the blacklist - if
+    it matches, it is invalid. If it matches neither whitelist nor
+    blacklist, it is valid.
 
 INSTALLATION
+    See perlmodinstall for information and options on installing Perl
+    modules.
 
-Business-Address-POBox installation is straightforward. If your CPAN shell is
-set up, you should just be able to do
+BUGS AND LIMITATIONS
+    No bugs have been reported.
 
-    % cpan Business::Address::POBox
+    Please report any bugs or feature requests through the web interface at
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=Business-Address-POBox
+    >.
 
-Download it, unpack it, then build it as per the usual:
+AVAILABILITY
+    The latest version of this module is available from the Comprehensive
+    Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
+    CPAN site near you, or see
+    <http://search.cpan.org/dist/Business-Address-POBox/>.
 
-    % perl Makefile.PL
-    % make && make test
+    The development version lives at
+    <http://github.com/hanekomu/Business-Address-POBox/>. Instead of sending
+    patches, please fork this project using the standard git and github
+    infrastructure.
 
-Then install it:
+AUTHOR
+      Marcel Gruenauer <marcel@cpan.org>
 
-    % make install
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2007 by Marcel Gruenauer.
 
-DOCUMENTATION
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 
-Business-Address-POBox documentation is available as in POD. So you can do:
-
-    % perldoc Business::Address::POBox
-
-to read the documentation online with your favorite pager.
-
-Marcel Gruenauer

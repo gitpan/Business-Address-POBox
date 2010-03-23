@@ -1,22 +1,16 @@
-package Business::Address::POBox;
-
+use 5.008;
 use strict;
 use warnings;
+
+package Business::Address::POBox;
+our $VERSION = '1.100820';
+
+# ABSTRACT: Check whether an address looks like a P.O.Box
 use String::BlackWhiteList;
-
-
-our $VERSION = '0.10';
-
-
-use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
-
-
-__PACKAGE__
-    ->mk_constructor
-    ->mk_object_accessors('String::BlackWhiteList' => 'matcher')
-    ->mk_array_accessors(qw(blacklist whitelist));
-
-
+use parent qw(Class::Accessor::Complex Class::Accessor::Constructor);
+__PACKAGE__->mk_constructor->mk_object_accessors(
+    'String::BlackWhiteList' => 'matcher')
+  ->mk_array_accessors(qw(blacklist whitelist));
 use constant DEFAULTS => (
     blacklist => [
         '\b(BOX|POB|POST(BOX|SCHACHTEL|FACH|LAGERND|BUS)?|POBOX)\b',
@@ -25,16 +19,14 @@ use constant DEFAULTS => (
     ],
     whitelist => [
         'Pf(-|\s+)\D',
-        '\b((Alte|An\s+der(\s+alten)?)\s+Post|Post(-|\s+)(Road|Rd|Street|St|Avenue|Av|Alley|Drive|Grove|Walk|Parkway|Row|Lane|Bridge|Boulevard|Square|Garden|Strasse|Gasse|Allee|Platz))\b',
+'\b((Alte|An\s+der(\s+alten)?)\s+Post|Post(-|\s+)(Road|Rd|Street|St|Avenue|Av|Alley|Drive|Grove|Walk|Parkway|Row|Lane|Bridge|Boulevard|Square|Garden|Strasse|Gasse|Allee|Platz))\b',
     ],
 );
-
 
 sub init {
     my $self = shift;
     $self->update;
 }
-
 
 sub update {
     my $self = shift;
@@ -45,36 +37,36 @@ sub update {
     }
 }
 
-
 sub is_pobox {
     my ($self, $text) = @_;
     !$self->matcher->valid($text);
 }
 
-
 sub is_pobox_relaxed {
     my ($self, $text) = @_;
     !$self->matcher->valid_relaxed($text);
 }
-
-
 1;
 
 
 __END__
-
-
+=pod
 
 =head1 NAME
 
 Business::Address::POBox - Check whether an address looks like a P.O.Box
 
+=head1 VERSION
+
+version 1.100820
+
 =head1 SYNOPSIS
 
     use Business::Address::POBox;
 
+    my $address = 'PF 34, 1010 Wien';
     if (Business::Address::POBox->new->is_pobox($address)) {
-        ...
+        # do something with the address
     }
 
 =head1 DESCRIPTION
@@ -89,9 +81,7 @@ provided. Note that the entries are literal strings, not regular expressions.
 
 =head1 METHODS
 
-=over 4
-
-=item C<new>
+=head2 new
 
     my $obj = Business::Address::POBox->new;
     my $obj = Business::Address::POBox->new(%args);
@@ -102,468 +92,63 @@ component is initialized by calling the method of the same name with the given
 value. If called with a single hash reference, it is dereferenced and its
 key/value pairs are set as described before.
 
-=item C<init>
+=head2 init
 
 Just calls C<update()> in case the blacklist and/or whitelist was set during
 the C<new()> call.
 
-=item C<blacklist>
-
-    my @values    = $obj->blacklist;
-    my $array_ref = $obj->blacklist;
-    $obj->blacklist(@values);
-    $obj->blacklist($array_ref);
-
-Get or set the array values. If called without an arguments, it returns the
-array in list context, or a reference to the array in scalar context. If
-called with arguments, it expands array references found therein and sets the
-values.
-
-=item C<blacklist_clear>
-
-    $obj->blacklist_clear;
-
-Deletes all elements from the array.
-
-=item C<blacklist_count>
-
-    my $count = $obj->blacklist_count;
-
-Returns the number of elements in the array.
-
-=item C<blacklist_index>
-
-    my $element   = $obj->blacklist_index(3);
-    my @elements  = $obj->blacklist_index(@indices);
-    my $array_ref = $obj->blacklist_index(@indices);
-
-Takes a list of indices and returns the elements indicated by those indices.
-If only one index is given, the corresponding array element is returned. If
-several indices are given, the result is returned as an array in list context
-or as an array reference in scalar context.
-
-=item C<blacklist_pop>
-
-    my $value = $obj->blacklist_pop;
-
-Pops the last element off the array, returning it.
-
-=item C<blacklist_push>
-
-    $obj->blacklist_push(@values);
-
-Pushes elements onto the end of the array.
-
-=item C<blacklist_set>
-
-    $obj->blacklist_set(1 => $x, 5 => $y);
-
-Takes a list of index/value pairs and for each pair it sets the array element
-at the indicated index to the indicated value. Returns the number of elements
-that have been set.
-
-=item C<blacklist_shift>
-
-    my $value = $obj->blacklist_shift;
-
-Shifts the first element off the array, returning it.
-
-=item C<blacklist_splice>
-
-    $obj->blacklist_splice(2, 1, $x, $y);
-    $obj->blacklist_splice(-1);
-    $obj->blacklist_splice(0, -1);
-
-Takes three arguments: An offset, a length and a list.
-
-Removes the elements designated by the offset and the length from the array,
-and replaces them with the elements of the list, if any. In list context,
-returns the elements removed from the array. In scalar context, returns the
-last element removed, or C<undef> if no elements are removed. The array grows
-or shrinks as necessary. If the offset is negative then it starts that far
-from the end of the array. If the length is omitted, removes everything from
-the offset onward. If the length is negative, removes the elements from the
-offset onward except for -length elements at the end of the array. If both the
-offset and the length are omitted, removes everything. If the offset is past
-the end of the array, it issues a warning, and splices at the end of the
-array.
-
-=item C<blacklist_unshift>
-
-    $obj->blacklist_unshift(@values);
-
-Unshifts elements onto the beginning of the array.
-
-=item C<clear_blacklist>
-
-    $obj->clear_blacklist;
-
-Deletes all elements from the array.
-
-=item C<clear_matcher>
-
-    $obj->clear_matcher;
-
-Deletes the object.
-
-=item C<clear_whitelist>
-
-    $obj->clear_whitelist;
-
-Deletes all elements from the array.
-
-=item C<count_blacklist>
-
-    my $count = $obj->count_blacklist;
-
-Returns the number of elements in the array.
-
-=item C<count_whitelist>
-
-    my $count = $obj->count_whitelist;
-
-Returns the number of elements in the array.
-
-=item C<index_blacklist>
-
-    my $element   = $obj->index_blacklist(3);
-    my @elements  = $obj->index_blacklist(@indices);
-    my $array_ref = $obj->index_blacklist(@indices);
-
-Takes a list of indices and returns the elements indicated by those indices.
-If only one index is given, the corresponding array element is returned. If
-several indices are given, the result is returned as an array in list context
-or as an array reference in scalar context.
-
-=item C<index_whitelist>
-
-    my $element   = $obj->index_whitelist(3);
-    my @elements  = $obj->index_whitelist(@indices);
-    my $array_ref = $obj->index_whitelist(@indices);
-
-Takes a list of indices and returns the elements indicated by those indices.
-If only one index is given, the corresponding array element is returned. If
-several indices are given, the result is returned as an array in list context
-or as an array reference in scalar context.
-
-=item C<matcher>
-
-    my $object = $obj->matcher;
-    $obj->matcher($object);
-    $obj->matcher(@args);
-
-If called with an argument object of type String::BlackWhiteList it sets the object; further
-arguments are discarded. If called with arguments but the first argument is
-not an object of type String::BlackWhiteList, a new object of type String::BlackWhiteList is constructed and the
-arguments are passed to the constructor.
-
-If called without arguments, it returns the String::BlackWhiteList object stored in this slot;
-if there is no such object, a new String::BlackWhiteList object is constructed - no arguments
-are passed to the constructor in this case - and stored in the matcher slot
-before returning it.
-
-=item C<matcher_clear>
-
-    $obj->matcher_clear;
-
-Deletes the object.
-
-=item C<pop_blacklist>
-
-    my $value = $obj->pop_blacklist;
-
-Pops the last element off the array, returning it.
-
-=item C<pop_whitelist>
-
-    my $value = $obj->pop_whitelist;
-
-Pops the last element off the array, returning it.
-
-=item C<push_blacklist>
-
-    $obj->push_blacklist(@values);
-
-Pushes elements onto the end of the array.
-
-=item C<push_whitelist>
-
-    $obj->push_whitelist(@values);
-
-Pushes elements onto the end of the array.
-
-=item C<set_blacklist>
-
-    $obj->set_blacklist(1 => $x, 5 => $y);
-
-Takes a list of index/value pairs and for each pair it sets the array element
-at the indicated index to the indicated value. Returns the number of elements
-that have been set.
-
-=item C<set_whitelist>
-
-    $obj->set_whitelist(1 => $x, 5 => $y);
-
-Takes a list of index/value pairs and for each pair it sets the array element
-at the indicated index to the indicated value. Returns the number of elements
-that have been set.
-
-=item C<shift_blacklist>
-
-    my $value = $obj->shift_blacklist;
-
-Shifts the first element off the array, returning it.
-
-=item C<shift_whitelist>
-
-    my $value = $obj->shift_whitelist;
-
-Shifts the first element off the array, returning it.
-
-=item C<splice_blacklist>
-
-    $obj->splice_blacklist(2, 1, $x, $y);
-    $obj->splice_blacklist(-1);
-    $obj->splice_blacklist(0, -1);
-
-Takes three arguments: An offset, a length and a list.
-
-Removes the elements designated by the offset and the length from the array,
-and replaces them with the elements of the list, if any. In list context,
-returns the elements removed from the array. In scalar context, returns the
-last element removed, or C<undef> if no elements are removed. The array grows
-or shrinks as necessary. If the offset is negative then it starts that far
-from the end of the array. If the length is omitted, removes everything from
-the offset onward. If the length is negative, removes the elements from the
-offset onward except for -length elements at the end of the array. If both the
-offset and the length are omitted, removes everything. If the offset is past
-the end of the array, it issues a warning, and splices at the end of the
-array.
-
-=item C<splice_whitelist>
-
-    $obj->splice_whitelist(2, 1, $x, $y);
-    $obj->splice_whitelist(-1);
-    $obj->splice_whitelist(0, -1);
-
-Takes three arguments: An offset, a length and a list.
-
-Removes the elements designated by the offset and the length from the array,
-and replaces them with the elements of the list, if any. In list context,
-returns the elements removed from the array. In scalar context, returns the
-last element removed, or C<undef> if no elements are removed. The array grows
-or shrinks as necessary. If the offset is negative then it starts that far
-from the end of the array. If the length is omitted, removes everything from
-the offset onward. If the length is negative, removes the elements from the
-offset onward except for -length elements at the end of the array. If both the
-offset and the length are omitted, removes everything. If the offset is past
-the end of the array, it issues a warning, and splices at the end of the
-array.
-
-=item C<unshift_blacklist>
-
-    $obj->unshift_blacklist(@values);
-
-Unshifts elements onto the beginning of the array.
-
-=item C<unshift_whitelist>
-
-    $obj->unshift_whitelist(@values);
-
-Unshifts elements onto the beginning of the array.
-
-=item C<whitelist>
-
-    my @values    = $obj->whitelist;
-    my $array_ref = $obj->whitelist;
-    $obj->whitelist(@values);
-    $obj->whitelist($array_ref);
-
-Get or set the array values. If called without an arguments, it returns the
-array in list context, or a reference to the array in scalar context. If
-called with arguments, it expands array references found therein and sets the
-values.
-
-=item C<whitelist_clear>
-
-    $obj->whitelist_clear;
-
-Deletes all elements from the array.
-
-=item C<whitelist_count>
-
-    my $count = $obj->whitelist_count;
-
-Returns the number of elements in the array.
-
-=item C<whitelist_index>
-
-    my $element   = $obj->whitelist_index(3);
-    my @elements  = $obj->whitelist_index(@indices);
-    my $array_ref = $obj->whitelist_index(@indices);
-
-Takes a list of indices and returns the elements indicated by those indices.
-If only one index is given, the corresponding array element is returned. If
-several indices are given, the result is returned as an array in list context
-or as an array reference in scalar context.
-
-=item C<whitelist_pop>
-
-    my $value = $obj->whitelist_pop;
-
-Pops the last element off the array, returning it.
-
-=item C<whitelist_push>
-
-    $obj->whitelist_push(@values);
-
-Pushes elements onto the end of the array.
-
-=item C<whitelist_set>
-
-    $obj->whitelist_set(1 => $x, 5 => $y);
-
-Takes a list of index/value pairs and for each pair it sets the array element
-at the indicated index to the indicated value. Returns the number of elements
-that have been set.
-
-=item C<whitelist_shift>
-
-    my $value = $obj->whitelist_shift;
-
-Shifts the first element off the array, returning it.
-
-=item C<whitelist_splice>
-
-    $obj->whitelist_splice(2, 1, $x, $y);
-    $obj->whitelist_splice(-1);
-    $obj->whitelist_splice(0, -1);
-
-Takes three arguments: An offset, a length and a list.
-
-Removes the elements designated by the offset and the length from the array,
-and replaces them with the elements of the list, if any. In list context,
-returns the elements removed from the array. In scalar context, returns the
-last element removed, or C<undef> if no elements are removed. The array grows
-or shrinks as necessary. If the offset is negative then it starts that far
-from the end of the array. If the length is omitted, removes everything from
-the offset onward. If the length is negative, removes the elements from the
-offset onward except for -length elements at the end of the array. If both the
-offset and the length are omitted, removes everything. If the offset is past
-the end of the array, it issues a warning, and splices at the end of the
-array.
-
-=item C<whitelist_unshift>
-
-    $obj->whitelist_unshift(@values);
-
-Unshifts elements onto the beginning of the array.
-
-=item C<update>
+=head2 update
 
 Call this method when you've changed the C<whitelist()> or the C<blacklist()>
 so the matcher knows about the changes.
 
-=item C<is_pobox>
+=head2 is_pobox
 
 This is the central method of this class. It takes a string argument and
 checks it against the whitelist and the blacklist. Returns a boolean value -
 true if the string passes the whitelist or is at least not caught by the
 blacklist, false if the string is caught by the blacklist.
 
-=item C<is_pobox_relaxed>
+=head2 is_pobox_relaxed
 
 Like C<is_pobox()>, but once a string passes the whitelist, it is not checked
 against the blacklist anymore. That is, if a string matches the whitelist, it
 is valid. If not, it is checked against the blacklist - if it matches, it is
 invalid. If it matches neither whitelist nor blacklist, it is valid.
 
-=back
+=head1 INSTALLATION
 
-Business::Address::POBox inherits from L<Class::Accessor::Complex>,
-L<Class::Accessor::Constructor>, and L<Class::Accessor::Constructor::Base>.
-
-The superclass L<Class::Accessor::Complex> defines these methods and
-functions:
-
-    mk_abstract_accessors(), mk_array_accessors(), mk_boolean_accessors(),
-    mk_class_array_accessors(), mk_class_hash_accessors(),
-    mk_class_scalar_accessors(), mk_concat_accessors(),
-    mk_forward_accessors(), mk_hash_accessors(), mk_integer_accessors(),
-    mk_new(), mk_object_accessors(), mk_scalar_accessors(),
-    mk_set_accessors(), mk_singleton()
-
-The superclass L<Class::Accessor> defines these methods and functions:
-
-    _carp(), _croak(), _mk_accessors(), accessor_name_for(),
-    best_practice_accessor_name_for(), best_practice_mutator_name_for(),
-    follow_best_practice(), get(), make_accessor(), make_ro_accessor(),
-    make_wo_accessor(), mk_accessors(), mk_ro_accessors(),
-    mk_wo_accessors(), mutator_name_for(), set()
-
-The superclass L<Class::Accessor::Installer> defines these methods and
-functions:
-
-    install_accessor()
-
-The superclass L<Class::Accessor::Constructor> defines these methods and
-functions:
-
-    _make_constructor(), mk_constructor(), mk_constructor_with_dirty(),
-    mk_singleton_constructor()
-
-The superclass L<Data::Inherited> defines these methods and functions:
-
-    every_hash(), every_list(), flush_every_cache_by_key()
-
-The superclass L<Class::Accessor::Constructor::Base> defines these methods
-and functions:
-
-    STORE(), clear_dirty(), clear_hygienic(), clear_unhygienic(),
-    contains_hygienic(), contains_unhygienic(), delete_hygienic(),
-    delete_unhygienic(), dirty(), dirty_clear(), dirty_set(),
-    elements_hygienic(), elements_unhygienic(), hygienic(),
-    hygienic_clear(), hygienic_contains(), hygienic_delete(),
-    hygienic_elements(), hygienic_insert(), hygienic_is_empty(),
-    hygienic_size(), insert_hygienic(), insert_unhygienic(),
-    is_empty_hygienic(), is_empty_unhygienic(), set_dirty(),
-    size_hygienic(), size_unhygienic(), unhygienic(), unhygienic_clear(),
-    unhygienic_contains(), unhygienic_delete(), unhygienic_elements(),
-    unhygienic_insert(), unhygienic_is_empty(), unhygienic_size()
-
-The superclass L<Tie::StdHash> defines these methods and functions:
-
-    CLEAR(), DELETE(), EXISTS(), FETCH(), FIRSTKEY(), NEXTKEY(), SCALAR(),
-    TIEHASH()
+See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Business-Address-POBox>.
 
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
+site near you, or see
+L<http://search.cpan.org/dist/Business-Address-POBox/>.
 
-=head1 AUTHORS
+The development version lives at
+L<http://github.com/hanekomu/Business-Address-POBox/>.
+Instead of sending patches, please fork this project using the standard git
+and github infrastructure.
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+=head1 AUTHOR
+
+  Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 by the authors.
+This software is copyright (c) 2007 by Marcel Gruenauer.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 

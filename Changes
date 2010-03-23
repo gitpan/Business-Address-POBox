@@ -1,5 +1,8 @@
 Revision history for Perl extension Business-Address-POBox
 
+1.100820  2010-03-23 19:35:36 Europe/Vienna
+    - converted the distribution to Dist::Zilla-style
+
 0.10 Mon May  4 16:29:37 CEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
      - 'Alte Post' was falsely recognized as a POBox; fixed
 
