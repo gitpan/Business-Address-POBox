@@ -1,5 +1,10 @@
 Revision history for Perl extension Business-Address-POBox
 
+1.101230  2010-05-03 16:16:44 Europe/Vienna
+    - New rules: an address containing a P.O.Box is still considered ok if it
+      contains other words that might be a street address. So [Au 7, PF 23] is
+      ok, as it [Universitaetsstrasse 23, Post Box 11].
+
 1.100820  2010-03-23 19:35:36 Europe/Vienna
     - converted the distribution to Dist::Zilla-style
 

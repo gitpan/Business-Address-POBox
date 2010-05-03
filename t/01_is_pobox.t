@@ -42,13 +42,29 @@ my @is_not_pobox = (
     'Am Steinkopf 17',
     'Alte Post',
 );
+
+my @pobox_but_deliverable = (
+    'Postgasse 11 Postfach 0815',
+    'Universitaetsstrasse 3, PF 45',
+    'Au 7, PF 3',
+    'PO 37, Postgasse 5',
+    'P.F. 37, Post Drive 9',
+    'P.O. BOX 37, Post Drive 9',
+    'Post Street, P.O.B.',
+    'Postfach 41, 1023 Wien',
+    'Postfach 41, 1023 Wien',
+    'Prof. Mabuse P.O. Box',
+    'Pool Box 123',
+    'Post Gasse, Postlagernd',
+    'Mein Postfach',
+);
+
 my @is_pobox = (
     'Box 123',
     'Pob',
     'Postbox',
     'Post',
     'Postschachtel',
-    'PO 37, Postgasse 5',
     'P O',
     'P O BOX',
     'P.O.',
@@ -61,20 +77,13 @@ my @is_pobox = (
     'POBOX',
     'PF 123',
     'Pf-123',
-    'P.F. 37, Post Drive 9',
-    'P.O. BOX 37, Post Drive 9',
-    'Post Street, P.O.B.',
-    'Postfach 41, 1023 Wien',
-    'Post Gasse, Postlagernd',
     'POSTBUS',
-    'Postfach 41, 1023 Wien',
     'Post Box 1234',
-    'Prof. Mabuse P.O. Box',
-    'Pool Box 123',
+    'A Post',
 );
-plan tests => @is_not_pobox + @is_pobox;
+plan tests => @is_not_pobox + @pobox_but_deliverable + @is_pobox;
 
-for my $value (@is_not_pobox) {
+for my $value (@is_not_pobox, @pobox_but_deliverable) {
     ok(!Business::Address::POBox->new->is_pobox($value),
         "value [$value] is not a pobox");
 }

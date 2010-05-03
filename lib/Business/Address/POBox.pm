@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Business::Address::POBox;
-our $VERSION = '1.100820';
+BEGIN {
+  $Business::Address::POBox::VERSION = '1.101230';
+}
 
 # ABSTRACT: Check whether an address looks like a P.O.Box
 use String::BlackWhiteList;
@@ -39,7 +41,16 @@ sub update {
 
 sub is_pobox {
     my ($self, $text) = @_;
-    !$self->matcher->valid($text);
+    return 0 if $self->matcher->valid($text);
+    my $black_re = $self->matcher->black_re;
+    # The documentation below explains this mess.
+    $text =~ s/$black_re//gi;
+    $text =~ s/[^\sa-z]//gi;
+    $text =~ s/^\s+|\s+$//g;
+    for my $word (split /\s+/, $text) {
+        return 0 if length($word) > 1;
+    }
+    return 1;
 }
 
 sub is_pobox_relaxed {
@@ -58,13 +69,13 @@ Business::Address::POBox - Check whether an address looks like a P.O.Box
 
 =head1 VERSION
 
-version 1.100820
+version 1.101230
 
 =head1 SYNOPSIS
 
     use Business::Address::POBox;
 
-    my $address = 'PF 34, 1010 Wien';
+    my $address = 'Universitaetsstrasse 7, PF 34';
     if (Business::Address::POBox->new->is_pobox($address)) {
         # do something with the address
     }
@@ -73,7 +84,8 @@ version 1.100820
 
 This class tries to determine whether or not an string refers to a P.O. box.
 This is sometimes relevant if your business process, for legal reasons, needs
-a real address and not a P.O. box.
+a real address and not a P.O. box. Actually, it needs to be a deliverable
+address. So a real address that happens to have a P.O. box is ok too.
 
 It has predefined blacklists and whitelists that should catch most English and
 German P.O. box addresses, but you can modify these lists with the methods
@@ -105,9 +117,23 @@ so the matcher knows about the changes.
 =head2 is_pobox
 
 This is the central method of this class. It takes a string argument and
-checks it against the whitelist and the blacklist. Returns a boolean value -
-true if the string passes the whitelist or is at least not caught by the
-blacklist, false if the string is caught by the blacklist.
+checks it against the whitelist and the blacklist.
+
+Returns a true value if the string passes the whitelist or is at least not
+caught by the blacklist. If the string is caught by the blacklist, anything
+that resembles a P.O. box is removed from the string, then everything except
+whitespace and letters is deleted, then the string is trimmed. If any of the
+remaining whitespace-separated words in the string has more than one
+character, the whole string is still considered ok.
+
+This is convoluted, but we might be testing the string C<Au 7, PF 33>. So
+C<PF> would be considered a P.O. box (short for C<Postfach> in German); the
+remainder, cleaned of non-letters and non-whitespace, is C<Au>. Since this is
+longer than one character, it's the whole address is still ok.
+
+Of course nothing prevents you from using C<Dr. Mabuse, P.O.Box 23> or
+something similar nonsensical. Short of checking whether an address actually
+exists there's no way of telling whether the remainder is an actual address.
 
 =head2 is_pobox_relaxed
 
